@@ -45,6 +45,12 @@ class Number:
     def powed_by(self, other):
         if isinstance(other, Number):
             return Number(self.value ** other.value).set_context(self.contex), None
+        
+    def copy(self):
+        copy = Number(self.value)
+        copy.set_pos(self.pos_start, self.pos_end)
+        copy.set_context(self.contex)
+        return copy
 
     def __repr__(self):
         return str(self.value)

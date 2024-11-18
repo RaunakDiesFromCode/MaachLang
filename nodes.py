@@ -13,6 +13,20 @@ class NumberNode:
     def __repr__(self) -> str:
         return f"{self.tok}"
 
+class VarAccessNode:
+    def __init__(self, var_name_tok):
+        self.var_name_tok = var_name_tok
+
+        self.pos_start = var_name_tok.pos_start
+        self.pos_end = var_name_tok.pos_end
+
+class VarAssignNode:
+    def __init__(self, var_name_tok, value_node):
+        self.var_name_tok = var_name_tok
+        self.value_node = value_node
+
+        self.pos_start = var_name_tok.pos_start
+        self.pos_end = value_node.pos_end
 
 class BinOpNode:
     def __init__(self, left_node, op_tok, right_node):
@@ -37,29 +51,3 @@ class UnaryOpNode:
 
     def __repr__(self) -> str:
         return f"({self.op_tok}, {self.node})"
-
-
-#######################################
-# PARSER RESULT
-#######################################
-
-
-class ParseResult:
-    def __init__(self):
-        self.error = None
-        self.node = None
-
-    def register(self, res):
-        if isinstance(res, ParseResult):
-            if res.error:
-                self.error = res.error
-            return res.node
-        return res
-
-    def success(self, node):
-        self.node = node
-        return self
-
-    def failure(self, error):
-        self.error = error
-        return self

@@ -4,14 +4,21 @@
 
 TT_INT = "INT"
 TT_FLOAT = "FLOAT"
+TT_IDENTIFIER = "IDENTIFIER"
+TT_KEYWORD = "KEYWORD"
 TT_PLUS = "PLUS"
 TT_MINUS = "MINUS"
 TT_MUL = "MUL"
 TT_DIV = "DIV"
 TT_POW = "POW"
+TT_EQ = "EQ"
 TT_LPAREN = "LPAREN"
 TT_RPAREN = "RPAREN"
 TT_EOF = "EOF"
+
+KEYWORDS = [
+    'chol',
+]
 
 
 class Token:
@@ -26,6 +33,9 @@ class Token:
 
         if pos_end:
             self.pos_end = pos_end
+            
+    def matches(self, type_, value):
+        return self.type == type_ and self.value == value
 
     def __repr__(self):
         if self.value:
