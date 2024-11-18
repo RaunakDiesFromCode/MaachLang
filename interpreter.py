@@ -3,7 +3,7 @@
 #######################################
 
 from runtime import RTResult
-from tokens import TT_PLUS, TT_MINUS, TT_MUL, TT_DIV
+from tokens import TT_PLUS, TT_MINUS, TT_MUL, TT_DIV, TT_POW
 from values import Number
 
 
@@ -40,6 +40,8 @@ class Interpreter:
             result, error = left.multed_by(right)
         elif node.op_tok.type == TT_DIV:
             result, error = left.dived_by(right)
+        elif node.op_tok.type == TT_POW:
+            result, error = left.powed_by(right)
 
         if error:
             return res.failure(error)

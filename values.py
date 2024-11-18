@@ -41,6 +41,10 @@ class Number:
                     self.contex
                 )  # Handle division by zero case.
             return Number(self.value / other.value).set_context(self.contex), None
+        
+    def powed_by(self, other):
+        if isinstance(other, Number):
+            return Number(self.value ** other.value).set_context(self.contex), None
 
     def __repr__(self):
         return str(self.value)

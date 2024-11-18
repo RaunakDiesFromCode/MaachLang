@@ -6,7 +6,7 @@
 from constants import DIGITS
 from errors import IllegalCharError
 from positions import Position
-from tokens import Token, TT_INT, TT_FLOAT, TT_PLUS, TT_MINUS, TT_MUL, TT_DIV, TT_LPAREN, TT_RPAREN, TT_EOF
+from tokens import Token, TT_INT, TT_FLOAT, TT_PLUS, TT_MINUS, TT_MUL, TT_DIV, TT_LPAREN, TT_RPAREN, TT_EOF, TT_POW
 
 
 class Lexer:
@@ -42,6 +42,9 @@ class Lexer:
                 self.advance()
             elif self.current_char == "/":
                 tokens.append(Token(TT_DIV, pos_start=self.pos))
+                self.advance()
+            elif self.current_char == "^":
+                tokens.append(Token(TT_POW, pos_start=self.pos))
                 self.advance()
             elif self.current_char == "(":
                 tokens.append(Token(TT_LPAREN, pos_start=self.pos))
