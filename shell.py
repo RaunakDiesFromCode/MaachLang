@@ -2,7 +2,13 @@ import basic
 
 while True:
     text = input("calc> ")
-    result, error = basic.run('AjobFile',text)
+
+    if text.strip() == "": continue
+
+    elif text == "tham" or text == "exit":
+        break
+
+    result, error = basic.run('<AjobFile>',text)
 
     if error:
         print(error.as_string())
