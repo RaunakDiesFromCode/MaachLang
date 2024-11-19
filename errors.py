@@ -31,6 +31,11 @@ class IllegalCharError(Error):
         )
 
 
+class ExpectedCharError(Error):
+    def __init__(self, pos_start, pos_end, details):
+        super().__init__(pos_start, pos_end, "Character expect korchilam...", details)
+
+
 class InvalidSyntaxError(Error):
     def __init__(self, pos_start, pos_end, details=''):
         super().__init__(pos_start, pos_end, "Aje baje Syntax keno bhai?", details)
