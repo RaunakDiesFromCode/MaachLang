@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext
-import basic  # Your custom module
+import basic_v2  # Your custom module
 
 
 class IDLEApp:
@@ -52,7 +52,7 @@ class IDLEApp:
             return
 
         # Evaluate the input using your basic module
-        result, error = basic.run("<AjobFile>", input_text)
+        result, error = basic_v2.run("<AjobFile>", input_text)
         if error:
             self.insert_text(f"{error.as_string()}")
         else:

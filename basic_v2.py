@@ -237,7 +237,7 @@ class Lexer:
                 tokens.append(self.make_less_than())
             elif self.current_char == ">":
                 tokens.append(self.make_greater_than())
-            elif self.current_char == ",":
+            elif self.current_char == ',':
                 tokens.append(Token(TT_COMMA, pos_start=self.pos))
                 self.advance()
             else:
@@ -283,7 +283,7 @@ class Lexer:
         pos_start = self.pos.copy()
         self.advance()
 
-        if self.current_char == ">":
+        if self.current_char == '>':
             self.advance()
             tok_type = TT_ARROW
 
@@ -713,12 +713,11 @@ class Parser:
             return res
 
         return res.success(WhileNode(condition, body))
-
+    
     def call(self):
         res = ParseResult()
         atom = res.register(self.atom())
-        if res.error:
-            return res
+        if res.error: return res
 
         if self.current_tok.type == TT_LPAREN:
             res.register_advancement()
@@ -731,30 +730,23 @@ class Parser:
             else:
                 arg_nodes.append(res.register(self.expr()))
                 if res.error:
-                    return res.failure(
-                        InvalidSyntaxError(
-                            self.current_tok.pos_start,
-                            self.current_tok.pos_end,
-                            "Amio toh expectations rakhi; ')', 'chol', 'jodi', 'ghora', 'jotokhon', 'kaaj', int, float, identifier, '+', '-', '(' ba 'noy' er",
-                        )
-                    )
+                    return res.failure(InvalidSyntaxError(
+                        self.current_tok.pos_start, self.current_tok.pos_end,
+                        "Amio toh expectations rakhi; ')', 'chol', 'jodi', 'ghora', 'jotokhon', 'kaaj', int, float, identifier, '+', '-', '(' ba 'noy' er"
+                    ))
 
                 while self.current_tok.type == TT_COMMA:
                     res.register_advancement()
                     self.advance()
 
                     arg_nodes.append(res.register(self.expr()))
-                    if res.error:
-                        return res
+                    if res.error: return res
 
                 if self.current_tok.type != TT_RPAREN:
-                    return res.failure(
-                        InvalidSyntaxError(
-                            self.current_tok.pos_start,
-                            self.current_tok.pos_end,
-                            f"Amio toh expectations rakhi; ',' ba ')' er",
-                        )
-                    )
+                    return res.failure(InvalidSyntaxError(
+                        self.current_tok.pos_start, self.current_tok.pos_end,
+                        f"Amio toh expectations rakhi; ',' ba ')' er"
+                    ))
 
                 res.register_advancement()
                 self.advance()
@@ -812,10 +804,9 @@ class Parser:
                 return res
             return res.success(while_expr)
 
-        elif tok.matches(TT_KEYWORD, "kaaj"):
+        elif tok.matches(TT_KEYWORD, 'kaaj'):
             func_def = res.register(self.func_def())
-            if res.error:
-                return res
+            if res.error: return res
             return res.success(func_def)
 
         return res.failure(
@@ -931,14 +922,11 @@ class Parser:
     def func_def(self):
         res = ParseResult()
 
-        if not self.current_tok.matches(TT_KEYWORD, "kaaj"):
-            return res.failure(
-                InvalidSyntaxError(
-                    self.current_tok.pos_start,
-                    self.current_tok.pos_end,
-                    f"Amio toh expectataions rakhi; 'kaaj' er...",
-                )
-            )
+        if not self.current_tok.matches(TT_KEYWORD, 'kaaj'):
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                f"Amio toh expectataions rakhi; 'kaaj' er..."
+            ))
 
         res.register_advancement()
         self.advance()
@@ -948,24 +936,18 @@ class Parser:
             res.register_advancement()
             self.advance()
             if self.current_tok.type != TT_LPAREN:
-                return res.failure(
-                    InvalidSyntaxError(
-                        self.current_tok.pos_start,
-                        self.current_tok.pos_end,
-                        f"Amio toh expectations rakhi; '(' er...",
-                    )
-                )
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; '(' er..."
+                ))
         else:
             var_name_tok = None
             if self.current_tok.type != TT_LPAREN:
-                return res.failure(
-                    InvalidSyntaxError(
-                        self.current_tok.pos_start,
-                        self.current_tok.pos_end,
-                        f"Amio toh expectations rakhi; identifier or '(' er...",
-                    )
-                )
-
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; identifier or '(' er..."
+                ))
+        
         res.register_advancement()
         self.advance()
         arg_name_toks = []
@@ -974,64 +956,56 @@ class Parser:
             arg_name_toks.append(self.current_tok)
             res.register_advancement()
             self.advance()
-
+            
             while self.current_tok.type == TT_COMMA:
                 res.register_advancement()
                 self.advance()
 
                 if self.current_tok.type != TT_IDENTIFIER:
-                    return res.failure(
-                        InvalidSyntaxError(
-                            self.current_tok.pos_start,
-                            self.current_tok.pos_end,
-                            f"Amio toh expectations rakhi; identifier er...",
-                        )
-                    )
+                    return res.failure(InvalidSyntaxError(
+                        self.current_tok.pos_start, self.current_tok.pos_end,
+                        f"Amio toh expectations rakhi; identifier er..."
+                    ))
 
                 arg_name_toks.append(self.current_tok)
                 res.register_advancement()
                 self.advance()
-
+            
             if self.current_tok.type != TT_RPAREN:
-                return res.failure(
-                    InvalidSyntaxError(
-                        self.current_tok.pos_start,
-                        self.current_tok.pos_end,
-                        f"Amio toh expectations rakhi; ',' ba ')' er...",
-                    )
-                )
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; ',' ba ')' er..."
+                ))
         else:
             if self.current_tok.type != TT_RPAREN:
-                return res.failure(
-                    InvalidSyntaxError(
-                        self.current_tok.pos_start,
-                        self.current_tok.pos_end,
-                        f"Amio toh expectations rakhi; identifier or ')' er...",
-                    )
-                )
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; identifier or ')' er..."
+                ))
 
         res.register_advancement()
         self.advance()
 
         if self.current_tok.type != TT_ARROW:
-            return res.failure(
-                InvalidSyntaxError(
-                    self.current_tok.pos_start,
-                    self.current_tok.pos_end,
-                    f"Amio toh expectations rakhi; '->' er...",
-                )
-            )
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                f"Amio toh expectations rakhi; '->' er..."
+            ))
 
         res.register_advancement()
         self.advance()
         node_to_return = res.register(self.expr())
-        if res.error:
-            return res
+        if res.error: return res
 
-        return res.success(FuncDefNode(var_name_tok, arg_name_toks, node_to_return))
+        return res.success(FuncDefNode(
+            var_name_tok,
+            arg_name_toks,
+            node_to_return
+        ))
 
     ###################################
 
+    
     ###################################
 
     def bin_op(self, func_a, ops, func_b=None):
@@ -1155,10 +1129,7 @@ class Value:
     def illegal_operation(self, other=None):
         if not other:
             other = self
-        return RTError(
-            self.pos_start, other.pos_end, "Ebaba! Illegal operation!!", self.context
-        )
-
+        return RTError(self.pos_start, other.pos_end, "Ebaba! Illegal operation!!", self.context)
 
 class Number(Value):
     def __init__(self, value):
@@ -1187,10 +1158,7 @@ class Number(Value):
         if isinstance(other, Number):
             if other.value == 0:
                 return None, RTError(
-                    other.pos_start,
-                    other.pos_end,
-                    "Keo zero diye konosomoy divide kore?",
-                    self.context,
+                    other.pos_start, other.pos_end, "Keo zero diye konosomoy divide kore?", self.context
                 )
 
             return Number(self.value / other.value).set_context(self.context), None
@@ -1284,7 +1252,6 @@ class Number(Value):
     def __repr__(self):
         return str(self.value)
 
-
 class Function(Value):
     def __init__(self, name, body_node, arg_names):
         super().__init__()
@@ -1358,7 +1325,7 @@ class Context:
 
 
 class SymbolTable:
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         self.symbols = {}
         self.parent = parent
 
@@ -1558,19 +1525,15 @@ class Interpreter:
                 return res
 
         return res.success(None)
-
+    
     def visit_FuncDefNode(self, node, context):
         res = RTResult()
 
         func_name = node.var_name_tok.value if node.var_name_tok else None
         body_node = node.body_node
         arg_names = [arg_name.value for arg_name in node.arg_name_toks]
-        func_value = (
-            Function(func_name, body_node, arg_names)
-            .set_context(context)
-            .set_pos(node.pos_start, node.pos_end)
-        )
-
+        func_value = Function(func_name, body_node, arg_names).set_context(context).set_pos(node.pos_start, node.pos_end)
+        
         if node.var_name_tok:
             context.symbol_table.set(func_name, func_value)
 
@@ -1581,18 +1544,15 @@ class Interpreter:
         args = []
 
         value_to_call = res.register(self.visit(node.node_to_call, context))
-        if res.error:
-            return res
+        if res.error: return res
         value_to_call = value_to_call.copy().set_pos(node.pos_start, node.pos_end)
 
         for arg_node in node.arg_nodes:
             args.append(res.register(self.visit(arg_node, context)))
-            if res.error:
-                return res
+            if res.error: return res
 
         return_value = res.register(value_to_call.execute(args))
-        if res.error:
-            return res
+        if res.error: return res
         return res.success(return_value)
 
 
