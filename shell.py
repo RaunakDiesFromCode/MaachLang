@@ -1,7 +1,7 @@
 import basic
 
 while True:
-    text = input("calc> ")
+    text = input("🐟> ")
 
     if text.strip() == "": continue
 
