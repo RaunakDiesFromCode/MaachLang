@@ -128,15 +128,15 @@ TT_POW = "POW"
 TT_EQ = "EQ"
 TT_LPAREN = "LPAREN"
 TT_RPAREN = "RPAREN"
-TT_EE = "EE"  #
-TT_NE = "NE"  #
-TT_LT = "LT"  #
-TT_GT = "GT"  #
-TT_LTE = "LTE"  #
-TT_GTE = "GTE"  #
+TT_EE = "EE"
+TT_NE = "NE"
+TT_LT = "LT"
+TT_GT = "GT"
+TT_LTE = "LTE"
+TT_GTE = "GTE"
 TT_EOF = "EOF"
 
-KEYWORDS = ["chol", "ebong", "othoba", "noy"]  #  #  #
+KEYWORDS = ["chol", "ebong", "othoba", "noy", "jodi", "tahole", "nahole jodi", "nahole"]
 
 
 class Token:
@@ -363,6 +363,15 @@ class UnaryOpNode:
         return f"({self.op_tok}, {self.node})"
 
 
+class IfNode:
+    def __init__(self, cases, else_case):
+        self.cases = cases
+        self.else_case = else_case
+
+        self.pos_start = self.cases[0][0].pos_start
+        self.pos_end = (self.else_case or self.cases[len(self.cases) - 1][0]).pos_end
+
+
 #######################################
 # PARSE RESULT
 #######################################
@@ -426,6 +435,79 @@ class Parser:
 
     ###################################
 
+    def if_expr(self):
+        res = ParseResult()
+        cases = []
+        else_case = None
+
+        if not self.current_tok.matches(TT_KEYWORD, "jodi"):
+            return res.failure(
+                InvalidSyntaxError(
+                    self.current_tok.pos_start,
+                    self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; 'jodi' keyword er...",
+                )
+            )
+
+        res.register_advancement()
+        self.advance()
+
+        condition = res.register(self.expr())
+        if res.error:
+            return res
+
+        if not self.current_tok.matches(TT_KEYWORD, "tahole"):
+            return res.failure(
+                InvalidSyntaxError(
+                    self.current_tok.pos_start,
+                    self.current_tok.pos_end,
+                    f"Amio toh expectations rakhi; 'tahole' keyword er...",
+                )
+            )
+
+        res.register_advancement()
+        self.advance()
+
+        expr = res.register(self.expr())
+        if res.error:
+            return res
+        cases.append((condition, expr))
+
+        while self.current_tok.matches(TT_KEYWORD, "nahole jodi"):
+            res.register_advancement()
+            self.advance()
+
+            condition = res.register(self.expr())
+            if res.error:
+                return res
+
+            if not self.current_tok.matches(TT_KEYWORD, "tahole"):
+                return res.failure(
+                    InvalidSyntaxError(
+                        self.current_tok.pos_start,
+                        self.current_tok.pos_end,
+                        f"Amio toh expectations rakhi; 'tahole' keyword er...",
+                    )
+                )
+
+            res.register_advancement()
+            self.advance()
+
+            expr = res.register(self.expr())
+            if res.error:
+                return res
+            cases.append((condition, expr))
+
+        if self.current_tok.matches(TT_KEYWORD, "nahole"):
+            res.register_advancement()
+            self.advance()
+
+            else_case = res.register(self.expr())
+            if res.error:
+                return res
+
+        return res.success(IfNode(cases, else_case))
+
     def atom(self):
         res = ParseResult()
         tok = self.current_tok
@@ -458,6 +540,12 @@ class Parser:
                         "Expected ')'",
                     )
                 )
+
+        elif tok.matches(TT_KEYWORD, "jodi"):
+            if_expr = res.register(self.if_expr())
+            if res.error:
+                return res
+            return res.success(if_expr)
 
         return res.failure(
             InvalidSyntaxError(
@@ -655,7 +743,10 @@ class Number:
         if isinstance(other, Number):
             if other.value == 0:
                 return None, RTError(
-                    other.pos_start, other.pos_end, "Zero diye ddivide kora hocchey?!", self.context
+                    other.pos_start,
+                    other.pos_end,
+                    "Zero diye ddivide kora hocchey?!",
+                    self.context,
                 )
 
             return Number(self.value / other.value).set_context(self.context), None
@@ -723,6 +814,9 @@ class Number:
         copy.set_context(self.context)
         return copy
 
+    def is_true(self):
+        return self.value != 0
+    
     def __repr__(self):
         return str(self.value)
 
@@ -872,6 +966,28 @@ class Interpreter:
             return res.failure(error)
         else:
             return res.success(number.set_pos(node.pos_start, node.pos_end))
+
+    def visit_IfNode(self, node, context):
+        res = RTResult()
+
+        for condition, expr in node.cases:
+            condition_value = res.register(self.visit(condition, context))
+            if res.error:
+                return res
+
+            if condition_value.is_true():
+                expr_value = res.register(self.visit(expr, context))
+                if res.error:
+                    return res
+                return res.success(expr_value)
+
+        if node.else_case:
+            else_value = res.register(self.visit(node.else_case, context))
+            if res.error:
+                return res
+            return res.success(else_value)
+
+        return res.success(None)
 
 
 #######################################

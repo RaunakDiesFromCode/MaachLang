@@ -15,3 +15,7 @@ power		:	atom (POW factor)*
 
 atom		:	INT|FLOAT|IDENTIFIER
 				: LPAREN expr RPAREN
+
+if-expr	:	KEYWORD:JODI expr KEYWORD:TAHOLE expr
+					(KEYWORD:nahole-jodi expr KEYWORD:TAHOLE expr)*
+					(KEYWORD:NAHOLE expr)?
