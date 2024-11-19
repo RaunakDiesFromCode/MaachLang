@@ -16,6 +16,11 @@ power		:	atom (POW factor)*
 atom		:	INT|FLOAT|IDENTIFIER
 				: LPAREN expr RPAREN
 
-if-expr	:	KEYWORD:JODI expr KEYWORD:TAHOLE expr
-					(KEYWORD:nahole-jodi expr KEYWORD:TAHOLE expr)*
+if-expr	:	KEYWORD:JODI expr KEYWORD:TARPOR expr
+					(KEYWORD:nahole-jodi expr KEYWORD:TARPOR expr)*
 					(KEYWORD:NAHOLE expr)?
+
+for-expr		: KEYWORD:GHORAO IDENTIFIER EQ expr KEYWORD:THEKE expr 
+							(KEYWORD:baro expr)? KEYWORD:TARPOR expr
+
+while-expr	: KEYWORD:JOTOKHON expr KEYWORD:TARPOR expr
