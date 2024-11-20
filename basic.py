@@ -1760,6 +1760,189 @@ class BuiltInFunction(BaseFunction):
         return RTResult().success(Number.null)
 
     execute_extend.arg_names = ["listA", "listB"]
+    
+    def execute_len(self, exec_ctx):
+        list_ = exec_ctx.symbol_table.get("list")
+        if not isinstance(list_, List):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be list",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(len(list_.elements)))
+    
+    execute_len.arg_names = ["list"]
+    
+    def execute_math_modulo(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        mod = exec_ctx.symbol_table.get("mod")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "First argument must be number",
+                    exec_ctx,
+                )
+            )
+        if not isinstance(mod, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Second argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(num.value % mod.value))
+    
+    execute_math_modulo.arg_names = ["num", "mod"]
+    
+    def execute_math_floor(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.floor(num.value)))
+    
+    execute_math_floor.arg_names = ["num"]
+    
+    def execute_math_ceil(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.ceil(num.value)))
+    
+    execute_math_ceil.arg_names = ["num"]
+    
+    def execute_math_round(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(round(num.value)))
+    
+    def execute_math_abs(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(abs(num.value)))
+    
+    execute_math_abs.arg_names = ["num"]
+    
+    def execute_math_sqrt(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.sqrt(num.value)))
+    
+    execute_math_sqrt.arg_names = ["num"]
+    
+    def execute_math_sin(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.sin(num.value)))
+    
+    execute_math_sin.arg_names = ["num"]
+    
+    def execute_math_cos(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.cos(num.value)))
+    
+    execute_math_cos.arg_names = ["num"]
+    
+    def execute_math_tan(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(math.tan(num.value)))
+    
+    execute_math_tan.arg_names = ["num"]
+    
+    def execute_math_pow(self, exec_ctx):
+        num = exec_ctx.symbol_table.get("num")
+        power = exec_ctx.symbol_table.get("power")
+        if not isinstance(num, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "First argument must be number",
+                    exec_ctx,
+                )
+            )
+        if not isinstance(power, Number):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Second argument must be number",
+                    exec_ctx,
+                )
+            )
+        return RTResult().success(Number(num.value ** power.value))
+    
+    execute_math_pow.arg_names = ["num", "power"]
 
 
 BuiltInFunction.print = BuiltInFunction("print")
@@ -1774,6 +1957,17 @@ BuiltInFunction.is_function = BuiltInFunction("is_function")
 BuiltInFunction.append = BuiltInFunction("append")
 BuiltInFunction.pop = BuiltInFunction("pop")
 BuiltInFunction.extend = BuiltInFunction("extend")
+BuiltInFunction.len = BuiltInFunction("len")
+BuiltInFunction.math_modulo = BuiltInFunction("math_modulo")
+BuiltInFunction.math_floor = BuiltInFunction("math_floor")
+BuiltInFunction.math_ceil = BuiltInFunction("math_ceil")
+BuiltInFunction.math_round = BuiltInFunction("math_round")
+BuiltInFunction.math_abs = BuiltInFunction("math_abs")
+BuiltInFunction.math_sqrt = BuiltInFunction("math_sqrt")
+BuiltInFunction.math_sin = BuiltInFunction("math_sin")
+BuiltInFunction.math_cos = BuiltInFunction("math_cos")
+BuiltInFunction.math_tan = BuiltInFunction("math_tan")
+BuiltInFunction.math_pow = BuiltInFunction("math_pow")
 
 #######################################
 # CONTEXT
@@ -2077,8 +2271,8 @@ global_symbol_table.set("bol", BuiltInFunction.print)
 global_symbol_table.set("likhey_bol", BuiltInFunction.print_ret)
 global_symbol_table.set("jigesh_kor", BuiltInFunction.input)
 global_symbol_table.set("sonkha_jigesh_kor", BuiltInFunction.input_int)
-global_symbol_table.set("khali", BuiltInFunction.clear)
-global_symbol_table.set("khali2", BuiltInFunction.clear)
+global_symbol_table.set("porishkar", BuiltInFunction.clear)
+global_symbol_table.set("porishkar2", BuiltInFunction.clear)
 global_symbol_table.set("sonkha_ki", BuiltInFunction.is_number)
 global_symbol_table.set("kotha_ki", BuiltInFunction.is_string)
 global_symbol_table.set("list_ki", BuiltInFunction.is_list)
@@ -2086,6 +2280,17 @@ global_symbol_table.set("kaaj_ki", BuiltInFunction.is_function)
 global_symbol_table.set("laga", BuiltInFunction.append)
 global_symbol_table.set("de", BuiltInFunction.pop)
 global_symbol_table.set("atka", BuiltInFunction.extend)
+global_symbol_table.set("lomba", BuiltInFunction.len)
+global_symbol_table.set("modulo", BuiltInFunction.math_modulo)
+global_symbol_table.set("floor", BuiltInFunction.math_floor)
+global_symbol_table.set("ceil", BuiltInFunction.math_ceil)
+global_symbol_table.set("round", BuiltInFunction.math_round)
+global_symbol_table.set("abs", BuiltInFunction.math_abs)
+global_symbol_table.set("sqroot", BuiltInFunction.math_sqrt)
+global_symbol_table.set("sin", BuiltInFunction.math_sin)
+global_symbol_table.set("cos", BuiltInFunction.math_cos)
+global_symbol_table.set("tan", BuiltInFunction.math_tan)
+global_symbol_table.set("pow", BuiltInFunction.math_pow)
 
 
 def run(fn, text):
