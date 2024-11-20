@@ -1,0 +1,33 @@
+              NAME            |         FUNCTION          |           DEFINITION
+------------------------------+---------------------------+--------------------------------------------------------------
+bol                           |         PRINT             |           Prints data to the screen
+likhey_bol                    |         PRINT_RET         |           Returns data to be printed in a variable(chol)
+jigesh_kor                    |         INPUT             |           Takes input from a user(string)
+sonkha_jigesh_kor             |         INPUT_INT         |           Takes input from a user(numberic)
+doshomika_jigesh_kor          |         FLOAT_INT         |           Takes input from a user(deciamal)
+khali                         |         CLEAR             |           Clears screen
+sonkha_ki                     |         IS_NUMBER         |           Check if the data is a number
+kotha_ki                      |         IS_STRING         |           Check if the data is a string
+list_ki                       |         IS_LIST           |           Check if the data is a list
+kaaj_ki                       |         IS_FUNCTION       |           Check if the data is a function
+laga                          |         APPEND            |           Adds a data to a list
+de                            |         POP               |           Removes the last element of the list
+atka                          |         EXTEND            |           Adds a list to a list
+
+
+
+
+KEYWORDS:
+    "chol",
+    "ebong",
+    "othoba",
+    "noy",
+    "jodi",
+    "nahole jodi",
+    "nahole",
+    "ghorao",
+    "theke",
+    "barao",
+    "jotokhon",
+    "kaaj",
+    "tarpor",
