@@ -1,0 +1,7 @@
+# basic recursion example using factorial
+
+kaaj fact(n);
+  jodi n<=1 tarpor de(1) nahole de(n * fact(n-1))
+byass;
+
+bol(fact(5))

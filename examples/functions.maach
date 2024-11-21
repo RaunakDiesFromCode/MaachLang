@@ -1,0 +1,9 @@
+# basic functions
+
+kaaj naam(name);
+  bol("Hello " + name);
+byass;
+
+bol("Name: ")
+chol n = jigesh_kor()
+naam(n)

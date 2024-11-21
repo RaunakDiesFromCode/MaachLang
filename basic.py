@@ -152,7 +152,7 @@ KEYWORDS = [
     "jotokhon",  # while
     "kaaj",  # func
     "tarpor",  # then
-    "sesh",  # end
+    "byass",  # end
     "de",  # return
     "chalao",  # continue
     "atkaao",  # break
@@ -206,6 +206,8 @@ class Lexer:
         while self.current_char != None:
             if self.current_char in " \t":
                 self.advance()
+            elif self.current_char in "#":
+                self.skip_comment()
             elif self.current_char in ";\n":
                 tokens.append(Token(TT_NEWLINE, pos_start=self.pos))
                 self.advance()
@@ -371,6 +373,14 @@ class Lexer:
             tok_type = TT_GTE
 
         return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
+    
+    def skip_comment(self):
+        self.advance()
+        
+        while self.current_char != "\n":
+            self.advance()
+        
+        self.advance()
 
 
 #######################################
@@ -1004,7 +1014,7 @@ class Parser:
                     return res
                 else_case = (statements, True)
 
-                if self.current_tok.matches(TT_KEYWORD, "sesh"):
+                if self.current_tok.matches(TT_KEYWORD, "byass"):
                     res.register_advancement()
                     self.advance()
                 else:
@@ -1012,7 +1022,7 @@ class Parser:
                         InvalidSyntaxError(
                             self.current_tok.pos_start,
                             self.current_tok.pos_end,
-                            "Expected 'sesh'",
+                            "Expected 'byass'",
                         )
                     )
             else:
@@ -1081,7 +1091,7 @@ class Parser:
                 return res
             cases.append((condition, statements, True))
 
-            if self.current_tok.matches(TT_KEYWORD, "sesh"):
+            if self.current_tok.matches(TT_KEYWORD, "byass"):
                 res.register_advancement()
                 self.advance()
             else:
@@ -1194,12 +1204,12 @@ class Parser:
             if res.error:
                 return res
 
-            if not self.current_tok.matches(TT_KEYWORD, "sesh"):
+            if not self.current_tok.matches(TT_KEYWORD, "byass"):
                 return res.failure(
                     InvalidSyntaxError(
                         self.current_tok.pos_start,
                         self.current_tok.pos_end,
-                        f"Expected 'sesh'",
+                        f"Expected 'byass'",
                     )
                 )
 
@@ -1257,12 +1267,12 @@ class Parser:
             if res.error:
                 return res
 
-            if not self.current_tok.matches(TT_KEYWORD, "sesh"):
+            if not self.current_tok.matches(TT_KEYWORD, "byass"):
                 return res.failure(
                     InvalidSyntaxError(
                         self.current_tok.pos_start,
                         self.current_tok.pos_end,
-                        f"Expected 'sesh'",
+                        f"Expected 'byass'",
                     )
                 )
 
@@ -1389,12 +1399,12 @@ class Parser:
         if res.error:
             return res
 
-        if not self.current_tok.matches(TT_KEYWORD, "sesh"):
+        if not self.current_tok.matches(TT_KEYWORD, "byass"):
             return res.failure(
                 InvalidSyntaxError(
                     self.current_tok.pos_start,
                     self.current_tok.pos_end,
-                    f"Expected 'sesh'",
+                    f"Expected 'byass'",
                 )
             )
 
@@ -2242,6 +2252,48 @@ class BuiltInFunction(BaseFunction):
 
     execute_math_pow.arg_names = ["num", "power"]
 
+    def execute_run(self, exec_ctx):
+        fn = exec_ctx.symbol_table.get("fn")
+        if not isinstance(fn, String):
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    "Argument must be string",
+                    exec_ctx,
+                )
+            )
+
+        fn = fn.value
+
+        try:
+            with open(fn, "r") as f:
+                script = f.read()
+        except Exception as e:
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    f"Failed to load script \"{fn}\"\n" + str(e),
+                    exec_ctx,
+                )
+            )
+
+        _, error = run(fn, script)
+        if error:
+            return RTResult().failure(
+                RTError(
+                    self.pos_start,
+                    self.pos_end,
+                    f"Failed to finish executing script \"{fn}\"\n" + error.as_string(),
+                    exec_ctx,
+                )
+            )
+
+        return RTResult().success(Number.null)
+    
+    execute_run.arg_names = ["fn"]
+        
 
 BuiltInFunction.print = BuiltInFunction("print")
 BuiltInFunction.print_ret = BuiltInFunction("print_ret")
@@ -2266,6 +2318,7 @@ BuiltInFunction.math_sin = BuiltInFunction("math_sin")
 BuiltInFunction.math_cos = BuiltInFunction("math_cos")
 BuiltInFunction.math_tan = BuiltInFunction("math_tan")
 BuiltInFunction.math_pow = BuiltInFunction("math_pow")
+BuiltInFunction.run = BuiltInFunction("run")
 
 #######################################
 # CONTEXT
@@ -2626,7 +2679,7 @@ global_symbol_table.set("kotha_ki", BuiltInFunction.is_string)
 global_symbol_table.set("list_ki", BuiltInFunction.is_list)
 global_symbol_table.set("kaaj_ki", BuiltInFunction.is_function)
 global_symbol_table.set("laga", BuiltInFunction.append)
-global_symbol_table.set("sesh_ber_kor", BuiltInFunction.pop)
+global_symbol_table.set("byass_ber_kor", BuiltInFunction.pop)
 global_symbol_table.set("atka", BuiltInFunction.extend)
 global_symbol_table.set("lomba", BuiltInFunction.len)
 global_symbol_table.set("modulo", BuiltInFunction.math_modulo)
@@ -2639,6 +2692,7 @@ global_symbol_table.set("sin", BuiltInFunction.math_sin)
 global_symbol_table.set("cos", BuiltInFunction.math_cos)
 global_symbol_table.set("tan", BuiltInFunction.math_tan)
 global_symbol_table.set("pow", BuiltInFunction.math_pow)
+global_symbol_table.set("Maach", BuiltInFunction.run)
 
 
 def run(fn, text):

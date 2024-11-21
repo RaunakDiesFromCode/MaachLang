@@ -1,0 +1,5 @@
+# implementation of a basic for loop
+
+ghorao i = 0 theke 5 tarpor
+  bol("loop!")
+byass
