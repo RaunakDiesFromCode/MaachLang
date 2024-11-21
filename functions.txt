@@ -4,18 +4,28 @@ bol                           |         PRINT             |           Prints dat
 likhey_bol                    |         PRINT_RET         |           Returns data to be printed in a variable(chol)
 jigesh_kor                    |         INPUT             |           Takes input from a user(string)
 sonkha_jigesh_kor             |         INPUT_INT         |           Takes input from a user(numberic)
-doshomika_jigesh_kor          |         FLOAT_INT         |           Takes input from a user(deciamal)
+doshomika_jigesh_kor          |         FLOAT_INT         |           Takes input from a user(decimal)
 khali                         |         CLEAR             |           Clears screen
-sonkha_ki                     |         IS_NUMBER         |           Check if the data is a number
-kotha_ki                      |         IS_STRING         |           Check if the data is a string
-list_ki                       |         IS_LIST           |           Check if the data is a list
-kaaj_ki                       |         IS_FUNCTION       |           Check if the data is a function
-laga                          |         APPEND            |           Adds a data to a list
+sonkha_ki                     |         IS_NUMBER         |           Checks if the data is a number
+kotha_ki                      |         IS_STRING         |           Checks if the data is a string
+list_ki                       |         IS_LIST           |           Checks if the data is a list
+kaaj_ki                       |         IS_FUNCTION       |           Checks if the data is a function
+laga                          |         APPEND            |           Adds data to a list
 de                            |         POP               |           Removes the last element of the list
 atka                          |         EXTEND            |           Adds a list to a list
-
-
-
+lomba                         |         LEN               |           Returns the length of a list
+modulo                        |         MATH_MODULO       |           Returns the remainder of a division operation
+floor                         |         MATH_FLOOR        |           Returns the largest integer less than or equal to a number
+ceil                          |         MATH_CEIL         |           Returns the smallest integer greater than or equal to a number
+round                         |         MATH_ROUND        |           Rounds a number to the nearest integer
+abs                           |         MATH_ABS          |           Returns the absolute value of a number
+sqroot                        |         MATH_SQRT         |           Returns the square root of a number
+sin                           |         MATH_SIN          |           Returns the sine of a number (in radians)
+cos                           |         MATH_COS          |           Returns the cosine of a number (in radians)
+tan                           |         MATH_TAN          |           Returns the tangent of a number (in radians)
+pow                           |         MATH_POW          |           Raises a number to the power of another number
+onko_pi                       |         CONSTANT_PI       |           Returns the constant value of Pi (π)
+onko_e                        |         CONSTANT_E        |           Returns the constant value of Euler's number (e)
 
 KEYWORDS:
     "chol",

@@ -1,5 +1,6 @@
 import basic
 
+print("MaachLang v1.0.0\nType 'tham' to exit\n")
 while True:
     text = input("🐟> ")
 
@@ -13,4 +14,4 @@ while True:
     if error:
         print(error.as_string())
     elif result:
-        print(result)
+        print(repr(result))

@@ -1645,7 +1645,7 @@ class BuiltInFunction(BaseFunction):
     execute_input_int.arg_names = []
 
     def execute_clear(self, exec_ctx):
-        os.system("cls" if os.name == "nt" else "cls")
+        os.system("cls" if os.name == "nt" else "clear")
         return RTResult().success(Number.null)
 
     execute_clear.arg_names = []
@@ -1843,6 +1843,8 @@ class BuiltInFunction(BaseFunction):
                 )
             )
         return RTResult().success(Number(round(num.value)))
+    
+    execute_math_round.arg_names = ["num"]
     
     def execute_math_abs(self, exec_ctx):
         num = exec_ctx.symbol_table.get("num")
@@ -2272,7 +2274,6 @@ global_symbol_table.set("likhey_bol", BuiltInFunction.print_ret)
 global_symbol_table.set("jigesh_kor", BuiltInFunction.input)
 global_symbol_table.set("sonkha_jigesh_kor", BuiltInFunction.input_int)
 global_symbol_table.set("porishkar", BuiltInFunction.clear)
-global_symbol_table.set("porishkar2", BuiltInFunction.clear)
 global_symbol_table.set("sonkha_ki", BuiltInFunction.is_number)
 global_symbol_table.set("kotha_ki", BuiltInFunction.is_string)
 global_symbol_table.set("list_ki", BuiltInFunction.is_list)
