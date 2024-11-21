@@ -8,10 +8,10 @@ while True:
         continue
 
     elif text == "tham" or text == "exit":
-        print("Goodbye!\n©Raunak")
+        print("Goodbye!\n-\n©2024 Raunak")
         break
 
-    result, error = basic.run("<AjobFile>", text)
+    result, error = basic.run("<ShellFile>", text)
 
     if error:
         print(error.as_string())
