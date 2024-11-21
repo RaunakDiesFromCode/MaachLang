@@ -3,7 +3,7 @@ import basic
 
 # Ensure a file argument is provided
 if len(sys.argv) != 2:
-    print("Usage: python3 shell.py <filename.maach>")
+    print("Usage: python3 FileRunnerShell.py <filename.maach>")
     sys.exit(1)
 
 filename = sys.argv[1]

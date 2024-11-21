@@ -1,6 +1,6 @@
 import basic
 
-print("MaachLang v1.0.0\nType 'tham' to exit\n")
+print("MaachLang v1.0.0 ~ running <ShellFile>\nType 'tham' to exit\n")
 while True:
     text = input("🐟> ")
 
