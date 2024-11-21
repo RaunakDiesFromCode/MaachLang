@@ -11,7 +11,7 @@ kotha_ki                      |         IS_STRING         |           Checks if 
 list_ki                       |         IS_LIST           |           Checks if the data is a list
 kaaj_ki                       |         IS_FUNCTION       |           Checks if the data is a function
 laga                          |         APPEND            |           Adds data to a list
-de                            |         POP               |           Removes the last element of the list
+sesh_ber_kor                  |         POP               |           Removes the last element of the list
 atka                          |         EXTEND            |           Adds a list to a list
 lomba                         |         LEN               |           Returns the length of a list
 modulo                        |         MATH_MODULO       |           Returns the remainder of a division operation

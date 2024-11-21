@@ -1,4 +1,9 @@
-statements	:	NEWLINE* expr (NEWLINE+expression)* NEWLINE*
+statements	:	NEWLINE* statement (NEWLINE+ statement)* NEWLINE*
+
+statement		:	KEYWORD:DE expr?
+						:	KEYWORD:CHALAO
+						:	KEYWORD:ATKAO
+						:	expr
 
 expr    		: KEYWORD:CHOL IDENTIFIER EQ expr
 						: comp-expr ((KEYWORD:AND|KEYWORD:OR) comp-expr)*
@@ -28,24 +33,24 @@ atom				:	INT|FLOAT|STRING|IDENTIFIER
 list-expr		:	LSQUARE (expr (COMMA expr)*)? RSQUARE
 
 if-expr     : KEYWORD:JODI expr KEYWORD:TARPOR
-              (expr if-expr-b|if-expr-c?)
+              (statement if-expr-b|if-expr-c?)
             | (NEWLINE statements KEYWORD:SESH|if-expr-b|if-expr-c)
 
 if-expr-b   : KEYWORD:NAHOLE JODI expr KEYWORD:TARPOR
-              (expr if-expr-b|if-expr-c?)
+              (statement if-expr-b|if-expr-c?)
             | (NEWLINE statements KEYWORD:SESH|if-expr-b|if-expr-c)
 
 if-expr-c   : KEYWORD:NAHOLE
-              expr
+              statement
             | (NEWLINE statements KEYWORD:SESH)
 
 for-expr		: KEYWORD:GHORAO IDENTIFIER EQ expr KEYWORD:THEKE expr 
 							(KEYWORD:baro expr)? KEYWORD:TARPOR
-							expr
+							statement
 						| (NEWLINE statements KEYWORD:SESH)
 
 while-expr	: KEYWORD:JOTOKHON expr KEYWORD:TARPOR
-							expr
+							statement
 						| (NEWLINE statements KEYWORD:SESH)
 
 func-def		:	KEYWORD:KAAJ IDENTIFIER?
