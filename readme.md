@@ -1,4 +1,4 @@
-#### (the language is still under developement.)
+#### (the language is still under development.)
 
 <table align="center">
 <td align="center">
