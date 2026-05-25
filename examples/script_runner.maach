@@ -1,0 +1,4 @@
+# run another MaachLang file from inside a program
+bol("running nested script")
+Maach("examples/helloworld.maach")
+bol("nested script finished")

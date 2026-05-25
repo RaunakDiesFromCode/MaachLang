@@ -1,0 +1,11 @@
+# math helper builtins demo
+chol x = -3.7
+bol(abs(x))
+bol(floor(x))
+bol(ceil(x))
+bol(round(2.49))
+bol(sqroot(81))
+bol(pow(2, 8))
+bol(modulo(17, 5))
+bol(sin(onko_pi / 2))
+bol(cos(0))

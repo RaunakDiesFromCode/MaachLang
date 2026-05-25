@@ -1,0 +1,11 @@
+# list creation and list builtins demo
+chol nums = [10, 20, 30]
+bol(nums)
+laga(nums, 40)
+bol(nums)
+chol extra = [50, 60]
+atka(nums, extra)
+bol(nums)
+bol(lomba(nums))
+bol(byass_ber_kor(nums, 2))
+bol(nums)

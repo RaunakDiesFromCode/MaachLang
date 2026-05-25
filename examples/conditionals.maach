@@ -1,0 +1,5 @@
+# inline if/else and boolean logic demo
+chol score = 73
+jodi score >= 90 tarpor bol("grade: A") nahole bol("grade: not A")
+jodi score >= 60 tarpor bol("grade: pass") nahole bol("grade: fail")
+jodi thik ebong noy bhul tarpor bol("boolean operators work")

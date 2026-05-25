@@ -116,6 +116,14 @@ byass;
 bol(fact(5))
 ```
 
+More runnable examples are available in the `examples/` directory:
+
+- `examples/conditionals.maach` (if/else and boolean logic)
+- `examples/while_countdown.maach` (while loop)
+- `examples/list_ops.maach` (list values and list helpers)
+- `examples/math_showcase.maach` (math built-ins)
+- `examples/script_runner.maach` (running one script from another)
+
 ## Installation
 
 A formal installation flow is not published yet. For now, clone the repository and run the scripts with Python 3.

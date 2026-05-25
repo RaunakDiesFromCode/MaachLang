@@ -1,0 +1,4 @@
+# while loop demo with single-line body
+chol n = 5
+jotokhon n > 0 tarpor chol n = n - 1
+bol(n)
