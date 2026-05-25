@@ -1,4 +1,57 @@
-# Global Symbol Table Functions and Methods
+# MaachLang Language Reference
+
+## Overview
+
+MaachLang is a small Bengali-inspired programming language implemented in Python. Programs are interpreted rather than compiled: source text is read, tokenized, parsed into an abstract syntax tree, and then executed by the runtime.
+
+## How It Works
+
+The public runtime entrypoint is `maach.run(fn, text)`.
+
+1. The lexer converts source text into tokens.
+2. The parser turns tokens into an abstract syntax tree.
+3. The interpreter evaluates the tree.
+4. Built-ins are loaded into the global symbol table before execution begins.
+
+This is the same runtime used by the interactive shell and the file runner.
+
+For a deeper architecture and data-flow walkthrough, see [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md).
+
+## How To Run Code
+
+### Run A File
+
+Execute a MaachLang file with the file runner:
+
+```bash
+python3 FileRunnerShell.py examples/helloworld.maach
+```
+
+Or use the helper script:
+
+```bash
+bash maach.sh examples/helloworld.maach
+```
+
+### Start The Interactive Shell
+
+Launch the REPL when you want to type statements by hand:
+
+```bash
+python3 shell.py
+```
+
+Type `tham` or `exit` to leave the shell.
+
+### Use The Runtime From Python
+
+```python
+from maach import run
+
+result, error = run("<stdin>", 'bol("Hello World")')
+```
+
+## Global Symbol Table Functions and Methods
 
 ## Functions
 
@@ -88,6 +141,8 @@
 
 29. **Maach**
     - Executes a script or command.
+
+The most commonly used built-ins are `bol`, `jigesh_kor`, `sonkha_jigesh_kor`, list helpers like `laga` and `byass_ber_kor`, and math helpers like `floor`, `ceil`, `round`, `abs`, `sqroot`, `sin`, `cos`, `tan`, and `pow`.
 
 ---
 

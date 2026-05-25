@@ -1,5 +1,5 @@
 import sys
-import basic
+from maach import run
 
 # Ensure a file argument is provided
 if len(sys.argv) != 2:
@@ -11,7 +11,7 @@ filename = sys.argv[1]
 print("MaachLang v1.0.0 ~ running", filename, "\n")
 
 
-result, error = basic.run(
+result, error = run(
     filename, (f'Maach("{filename}")')
 )  # Assuming basic.run() can use filename here.
 
